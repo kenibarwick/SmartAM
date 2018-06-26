@@ -100,7 +100,7 @@ metadata {
 	    input title: "Smart Awesome Miner API settings", description: "v${clientVersion()} (c) Keni Barwick", displayDuringSetup: true, type: "paragraph", element: "paragraph"
         input name: "AM_domain", type: "text", title: "Awesome Miner domain address", description: "Enter the Awesome Miner API domain address: i.e. domain.com", required: true, displayDuringSetup: true
         input name: "AM_port", type: "number", title: "Awesome Miner port number", description: "Enter the Awesome Miner API port number", required: true
-        input name: "AM_api_key", type: "number", title: "Awesome Miner api number", description: "Enter number", required: true
+        input name: "AM_api_key", type: "text", title: "Awesome Miner api number", description: "Enter API key", required: true
     }
 }
 def refresh() {
