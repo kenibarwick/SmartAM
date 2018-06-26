@@ -109,10 +109,8 @@ import groovy.json.JsonSlurper
 
 def initialize() {
     def params = [
-        uri: 'http://home.boysie-world.co.uk:11111', 
         contentType: 'application/json',
-        Accept: 'application/json',
-    	path: """/api/summary?key=6283dd43a1944f12bc3968a913ff73dc"""
+        Accept: 'application/json'
        ]
        
 	// log.debug "sending request"    
