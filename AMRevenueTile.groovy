@@ -13,6 +13,11 @@
  *  for the specific language governing permissions and limitations under the License.
  *
  */
+
+def clientVersion() {
+    return "0.0.1"
+}
+ 
 definition(
     name: "AM Revenue Tile",
     namespace: "kenibarwick",
@@ -28,8 +33,15 @@ definition(
         capability "Actuator"
     }
 
-preferences {
-            tiles(scale: 2) {
+metadata {
+    simulator {
+        // TODO: define status and reply messages here
+		def AM_domain = 'home.boysie-world.co.uk'
+        def AM_port = 11111
+    }
+    tiles {
+        // TODO: define your main and details tiles here
+        tiles(scale: 2) {
                 valueTile("revenuePerDayMain", "device.revenuePerDay", width: 2, height: 2) {
                     state "val", label:'${currentValue}', defaultState: true, backgroundColors: [
                         [value: 0, color: "#ff0000"],
@@ -78,14 +90,20 @@ preferences {
                 }
                 
                  standardTile("info", "device.info", decoration: "flat", width: 4, height: 2) {
-                    state "default", label: '${currentValue}', action: "refresh"
+                    state "default", label: 'last updated \n${currentValue}', action: "refresh"
                 }
                 
             main("revenuePerDayMain")
             	details(["exchangeRate", "revenuePerDay", "revenuePerMonth", "runningCount", "totalCount", "gpuCount", "refresh", "info"])
                 }
+    }
+ 	preferences {
+	    input title: "Smart Awesome Miner API settings", description: "v${clientVersion()} (c) Keni Barwick", displayDuringSetup: true, type: "paragraph", element: "paragraph"
+        input name: "AM_domain", type: "text", title: "Awesome Miner domain address", description: "Enter the Awesome Miner API domain address: i.e. domain.com", required: true, displayDuringSetup: true
+        input name: "AM_port", type: "number", title: "Awesome Miner port number", description: "Enter the Awesome Miner API port number", required: true
+        input name: "AM_api_key", type: "number", title: "Awesome Miner api number", description: "Enter number", required: true
+    }
 }
-
 def refresh() {
 		initialize()
 }
@@ -102,15 +120,16 @@ def updated() {
 def unsubscribe() {
 }
 
-
-// TODO: implement event handlers
 include 'asynchttp_v1'
 import groovy.json.JsonSlurper
 
 def initialize() {
     def params = [
+        uri: 'http://' + AM_domain + ':' + AM_port, 
+        //uri: 'http://home.boysie-world.co.uk:11111', 
         contentType: 'application/json',
-        Accept: 'application/json'
+        Accept: 'application/json',    	
+	path: """/api/summary?key=""" + AM_api_key 
        ]
        
 	// log.debug "sending request"    
