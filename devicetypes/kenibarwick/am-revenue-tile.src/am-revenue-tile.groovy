@@ -15,7 +15,7 @@
  */
 
 def clientVersion() {
-    return "0.0.3"
+    return "0.0.4"
 }
  
 definition(
@@ -23,7 +23,7 @@ definition(
     namespace: "kenibarwick",
     author: "Keni Barwick",
     description: "AM Revenue Tile",
-    category: "My Apps",
+    category: "Awesome Miner App",
     iconUrl: "https://s3.amazonaws.com/smartapp-icons/Convenience/Cat-Convenience.png",
     iconX2Url: "https://s3.amazonaws.com/smartapp-icons/Convenience/Cat-Convenience@2x.png",
     iconX3Url: "https://s3.amazonaws.com/smartapp-icons/Convenience/Cat-Convenience@2x.png")
@@ -68,19 +68,19 @@ metadata {
                 valueTile("runningCount", "device.runningCount", width: 2, height: 2) {
                     state "val", label:'Running Count \n ${currentValue}', defaultState: true, backgroundColors: [
                         [value: 0, color: "#ff0000"],
-                        [value: 11, color: "#00ff00"]
+                        [value: AM_miner_count, color: "#00ff00"]
                     ]
                 }
                 valueTile("totalCount", "device.totalCount", width: 2, height: 2) {
                     state "val", label:'Total Count \n ${currentValue}', defaultState: true, backgroundColors: [
                         [value: 0, color: "#ff0000"],
-                        [value: 11, color: "#00ff00"]
+                        [value: AM_miner_count, color: "#00ff00"]
                     ]
                 }
                 valueTile("gpuCount", "device.gpuCount", width: 2, height: 2) {
                     state "val", label:'GPU Count \n ${currentValue}', defaultState: true, backgroundColors: [
                         [value: 0, color: "#ff0000"],
-                        [value: 34, color: "#00ff00"]
+                        [value: AM_gpu_count, color: "#00ff00"]
                     ]
                 }
                 
@@ -92,6 +92,8 @@ metadata {
                     state "default", label: 'last updated \n${currentValue}', action: "refresh"
                 }
                 
+	// coinList                
+                
             main("revenuePerDayMain")
             	details(["exchangeRate", "revenuePerDay", "revenuePerMonth", "runningCount", "totalCount", "gpuCount", "refresh", "info"])
                 }
@@ -101,6 +103,8 @@ metadata {
         input name: "AM_domain", type: "text", title: "Awesome Miner domain address", description: "Enter the Awesome Miner API domain address: i.e. domain.com", required: true, displayDuringSetup: true
         input name: "AM_port", type: "number", title: "Awesome Miner port number", description: "Enter the Awesome Miner API port number", required: true
         input name: "AM_api_key", type: "text", title: "Awesome Miner api key", description: "Enter API key", required: true
+        input name: "AM_miner_count", type: "number", title: "Awesome Miner count", description: "Enter amount of miners", required: true
+        input name: "AM_gpu_count:", type: "number", title: "Count of GPUs", description: "Enter ammount of GPUs", required: true        
     }
 }
 def refresh() {
