@@ -12,10 +12,17 @@
  *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
  *  for the specific language governing permissions and limitations under the License.
  *
+ *  Revision History
+ *  ==============================================
+ *  2018-06-25 Version 0.0.1  initial upload
+ *  2018-06-26 Version 0.0.2  spell checking
+ *  2018-06-27 Version 0.0.3  changed version number and settings API key to Text not Number 
+ *  2018-07-01 Version 0.0.4  Seetings for the GPU and Miner counts 
+ *  2018-07-01 Version 0.0.5  Algo summary  
  */
 
 def clientVersion() {
-    return "0.0.4"
+    return "0.0.5"
 }
  
 definition(
@@ -88,14 +95,17 @@ metadata {
                     state "default", label: 'refresh', action: "refresh", icon: "st.secondary.refresh"
                 }
                 
-                 standardTile("info", "device.info", decoration: "flat", width: 4, height: 2) {
+            	standardTile("info", "device.info", decoration: "flat", width: 4, height: 2) {
                     state "default", label: 'last updated \n${currentValue}', action: "refresh"
                 }
-                
-	// coinList                
-                
+
+				// coinList                
+                 standardTile("algorithmList", "device.algorithmList", decoration: "flat", width: 6, height: 2) {
+                    state "default", label: 'Algorithm List \n${currentValue}', action: "refresh"
+                }
+                                                
             main("revenuePerDayMain")
-            	details(["exchangeRate", "revenuePerDay", "revenuePerMonth", "runningCount", "totalCount", "gpuCount", "refresh", "info"])
+            	details(["exchangeRate", "revenuePerDay", "revenuePerMonth", "runningCount", "totalCount", "gpuCount", "refresh", "info", "algorithmList"])
                 }
     }
  	preferences {
@@ -160,7 +170,8 @@ def responseHandlerMethod(response, data) {
     log.debug "gpuCount ${gpuCount}"
     def metaData = mineResult.get("metaData")
     log.debug "updated ${metaData.updated}"
-
+    def algorithmList = mineResult.get("algorithmList")
+    
     sendEvent(name: "exchangeRate", value: exchangeRate)
     sendEvent(name: "revenuePerMonth", value: revenuePerMonth)
     sendEvent(name: "revenuePerDay", value: revenuePerDay)
@@ -168,6 +179,17 @@ def responseHandlerMethod(response, data) {
     sendEvent(name: "runningCount", value: runningCount)
     sendEvent(name: "totalCount", value: totalCount)
     sendEvent(name: "gpuCount", value: gpuCount)
+        
+    sendEvent(name: "algorithmList", value: algorithmListConcat(algorithmList))
     
     sendEvent(name: "info", value: metaData.updated)
 }
+
+    def algorithmListConcat(algorithmList)
+    {
+        def result = ""
+        for (int i = 0; i < algorithmList.size; i++) {
+            result += algorithmList[i].name + " @ " + algorithmList[i].hashRate5s + " = " + algorithmList[i].revenue + " - " + algorithmList[i].temperature + "c" +  "\n"
+        }
+		return result
+    }
