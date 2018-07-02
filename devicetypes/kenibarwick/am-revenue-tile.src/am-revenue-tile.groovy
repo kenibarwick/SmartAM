@@ -19,10 +19,11 @@
  *  2018-06-27 Version 0.0.3  changed version number and settings API key to Text not Number 
  *  2018-07-01 Version 0.0.4  Seetings for the GPU and Miner counts 
  *  2018-07-01 Version 0.0.5  Algo summary  
- */
+ *  2018-07-02 Version 0.0.6  Refresh delay implemented and minutes setting added  
+*/
 
 def clientVersion() {
-    return "0.0.5"
+    return "0.0.6"
 }
  
 definition(
@@ -73,19 +74,19 @@ metadata {
                     ]
                 }
                 valueTile("runningCount", "device.runningCount", width: 2, height: 2) {
-                    state "val", label:'Running Count \n ${currentValue}', defaultState: true, backgroundColors: [
+                    state "val", label:'Running\nCount \n ${currentValue}', defaultState: true, backgroundColors: [
                         [value: 0, color: "#ff0000"],
                         [value: AM_miner_count, color: "#00ff00"]
                     ]
                 }
                 valueTile("totalCount", "device.totalCount", width: 2, height: 2) {
-                    state "val", label:'Total Count \n ${currentValue}', defaultState: true, backgroundColors: [
+                    state "val", label:'Total\nCount \n ${currentValue}', defaultState: true, backgroundColors: [
                         [value: 0, color: "#ff0000"],
                         [value: AM_miner_count, color: "#00ff00"]
                     ]
                 }
                 valueTile("gpuCount", "device.gpuCount", width: 2, height: 2) {
-                    state "val", label:'GPU Count \n ${currentValue}', defaultState: true, backgroundColors: [
+                    state "val", label:'GPU\nCount \n ${currentValue}', defaultState: true, backgroundColors: [
                         [value: 0, color: "#ff0000"],
                         [value: AM_gpu_count, color: "#00ff00"]
                     ]
@@ -114,15 +115,15 @@ metadata {
         input name: "AM_port", type: "number", title: "Awesome Miner port number", description: "Enter the Awesome Miner API port number", required: true
         input name: "AM_api_key", type: "text", title: "Awesome Miner api key", description: "Enter API key", required: true
         input name: "AM_miner_count", type: "number", title: "Awesome Miner count", description: "Enter amount of miners", required: true
-        input name: "AM_gpu_count:", type: "number", title: "Count of GPUs", description: "Enter ammount of GPUs", required: true        
+        input name: "AM_gpu_count", type: "number", title: "Count of GPUs", description: "Enter ammount of GPUs", required: true     
+        input name: "AM_refresh_delay", type: "number", title: "Details refresh delay in minutes", description: "Enter ammount of minutes", required: true, displayDuringSetup: true        
     }
 }
 def refresh() {
-		initialize()
+	initialize()
 }
 
 def installed() {
-	initialize()
 }
 
 def updated() {
@@ -147,7 +148,7 @@ def initialize() {
 	// log.debug "sending request"    
     asynchttp_v1.get('responseHandlerMethod', params)
     
- 
+    runIn(AM_refresh_delay*60, initialize)
 }
 
 def responseHandlerMethod(response, data) {
