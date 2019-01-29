@@ -183,11 +183,7 @@ def responseHandlerMethod(response, data) {
     def revenuePerMonth = mineResult.get("revenuePerMonth")
     log.debug "revenuePerMonth ${revenuePerMonth}"
     def profitPerDay = mineResult.get("profitPerDay")
-<<<<<<< HEAD
     log.debug "profitPerDay ${profitPerDay}"
-=======
-    log.debug "profitPerDay ${revenuePerDay}"
->>>>>>> 4798e76669b6a915382b72c5d373400882f5b93b
     def profitPerMonth = mineResult.get("profitPerMonth")
     log.debug "profitPerMonth ${profitPerMonth}"
     def powerUsage = mineResult.get("powerUsage")
