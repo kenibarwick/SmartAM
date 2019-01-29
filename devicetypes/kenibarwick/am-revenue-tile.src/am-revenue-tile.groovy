@@ -1,7 +1,7 @@
 /**
  *  AM Revenue Tile
  *
- *  Copyright 2018 Keni Barwick
+ *  Copyright 2019 Keni Barwick
  *
  *  Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  *  in compliance with the License. You may obtain a copy of the License at:
@@ -20,10 +20,11 @@
  *  2018-07-01 Version 0.0.4  Seetings for the GPU and Miner counts 
  *  2018-07-01 Version 0.0.5  Algo summary  
  *  2018-07-02 Version 0.0.6  Refresh delay implemented and minutes setting added  
+ *  2019-01-29 Version 0.0.7  Added algo profit summary and power usage in kW
 */
 
 def clientVersion() {
-    return "0.0.6"
+    return "0.0.7"
 }
  
 definition(
@@ -49,7 +50,7 @@ metadata {
     tiles {
         // TODO: define your main and details tiles here
         tiles(scale: 2) {
-                valueTile("revenuePerDayMain", "device.revenuePerDay", width: 2, height: 2) {
+                valueTile("profitPerDayMain", "device.revenuePerDay", width: 2, height: 2) {
                     state "val", label:'${currentValue}', defaultState: true, backgroundColors: [
                         [value: 0, color: "#ff0000"],
                         [value: 100, color: "#00ff00"]
@@ -71,6 +72,24 @@ metadata {
                     state "val", label:'Per Month \n ${currentValue}', defaultState: true, backgroundColors: [
                         [value: 0, color: "#ff0000"],
                         [value: 2000, color: "#00ff00"]
+                    ]
+                }
+                valueTile("profitPerDay", "device.profitPerDay", width: 2, height: 2) {
+                    state "val", label:'Per Day \n ${currentValue}', defaultState: true, backgroundColors: [
+                        [value: 0, color: "#ff0000"],
+                        [value: 100, color: "#00ff00"]
+                    ]
+                }
+                valueTile("profitPerMonth", "device.profitPerMonth", width: 2, height: 2) {
+                    state "val", label:'Per Month \n ${currentValue}', defaultState: true, backgroundColors: [
+                        [value: 0, color: "#ff0000"],
+                        [value: 2000, color: "#00ff00"]
+                    ]
+                }
+                valueTile("powerUsage", "device.powerUsage", width: 2, height: 2) {
+                    state "val", label:'Per Day \n ${currentValue}', defaultState: true, backgroundColors: [
+                        [value: 0, color: "#ff0000"],
+                        [value: 100, color: "#00ff00"]
                     ]
                 }
                 valueTile("runningCount", "device.runningCount", width: 2, height: 2) {
@@ -106,7 +125,7 @@ metadata {
                 }
                                                 
             main("revenuePerDayMain")
-            	details(["exchangeRate", "revenuePerDay", "revenuePerMonth", "runningCount", "totalCount", "gpuCount", "refresh", "info", "algorithmList"])
+            	details(["exchangeRate", "profitPerDay", "profitPerMonth", "revenuePerDay", "revenuePerMonth", "runningCount", "totalCount", "gpuCount", , "powerUsage", "refresh", "info", "algorithmList"])
                 }
     }
  	preferences {
@@ -161,6 +180,12 @@ def responseHandlerMethod(response, data) {
     log.debug "revenuePerDay ${revenuePerDay}"
     def revenuePerMonth = mineResult.get("revenuePerMonth")
     log.debug "revenuePerMonth ${revenuePerMonth}"
+    def profitPerDay = mineResult.get("profitPerDay")
+    log.debug "profitPerDay ${revenuePerDay}"
+    def profitPerMonth = mineResult.get("profitPerMonth")
+    log.debug "profitPerMonth ${profitPerMonth}"
+    def powerUsage = mineResult.get("powerUsage")
+    log.debug "powerUsage ${exchangeRate}"
     def exchangeRate = mineResult.get("exchangeRate")
     log.debug "exchangeRate ${exchangeRate}"
     def runningCount = mineResult.get("runningCount")
@@ -176,6 +201,10 @@ def responseHandlerMethod(response, data) {
     sendEvent(name: "exchangeRate", value: exchangeRate)
     sendEvent(name: "revenuePerMonth", value: revenuePerMonth)
     sendEvent(name: "revenuePerDay", value: revenuePerDay)
+     
+    sendEvent(name: "profitPerDay", value: profitPerDay)
+    sendEvent(name: "profitPerMonth", value: profitPerMonth)
+    sendEvent(name: "powerUsage", value: powerUsage)
     
     sendEvent(name: "runningCount", value: runningCount)
     sendEvent(name: "totalCount", value: totalCount)
