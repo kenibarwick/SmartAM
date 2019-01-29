@@ -12,6 +12,7 @@
  *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
  *  for the specific language governing permissions and limitations under the License.
  *
+ *  Please feel free to contact me on kenibarwick@gmail.com
  *  Revision History
  *  ==============================================
  *  2018-06-25 Version 0.0.1  initial upload
