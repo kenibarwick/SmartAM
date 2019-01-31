@@ -175,9 +175,9 @@ def responseHandlerMethod(response, data) {
     // log.debug "parsing response"
 
 	def respText = response.data as String
-    def revenuePerDayMain = mineResult.get("revenuePerDay")
-    log.debug "revenuePerDayMain ${revenuePerDay}"
     def mineResult = new groovy.json.JsonSlurper().parseText(respText)
+    def profitPerDayMain = mineResult.get("profitPerDay")
+    log.debug "profitPerDayMain ${profitPerDayMain}"
     def revenuePerDay = mineResult.get("revenuePerDay")
     log.debug "revenuePerDay ${revenuePerDay}"
     def revenuePerMonth = mineResult.get("revenuePerMonth")
