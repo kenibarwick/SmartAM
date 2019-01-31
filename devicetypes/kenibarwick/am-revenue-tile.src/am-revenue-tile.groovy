@@ -204,6 +204,8 @@ def responseHandlerMethod(response, data) {
     sendEvent(name: "revenuePerMonth", value: revenuePerMonth)
     sendEvent(name: "revenuePerDay", value: revenuePerDay)
      
+    sendEvent(name: "profitPerDayMain", value: profitPerDay)
+
     sendEvent(name: "profitPerDay", value: profitPerDay)
     sendEvent(name: "profitPerMonth", value: profitPerMonth)
     sendEvent(name: "powerUsage", value: powerUsage)
