@@ -65,31 +65,31 @@ metadata {
                     ]
                 }
                 valueTile("revenuePerDay", "device.revenuePerDay", width: 2, height: 2) {
-                    state "val", label:'Per Day \n ${currentValue}', defaultState: true, backgroundColors: [
+                    state "val", label:'Revenue Per Day \n ${currentValue}', defaultState: true, backgroundColors: [
                         [value: 0, color: "#ff0000"],
                         [value: 100, color: "#00ff00"]
                     ]
                 }
                 valueTile("revenuePerMonth", "device.revenuePerMonth", width: 2, height: 2) {
-                    state "val", label:'Per Month \n ${currentValue}', defaultState: true, backgroundColors: [
+                    state "val", label:'Revenue Per Month \n ${currentValue}', defaultState: true, backgroundColors: [
                         [value: 0, color: "#ff0000"],
                         [value: 2000, color: "#00ff00"]
                     ]
                 }
                 valueTile("profitPerDay", "device.profitPerDay", width: 2, height: 2) {
-                    state "val", label:'Per Day \n ${currentValue}', defaultState: true, backgroundColors: [
+                    state "val", label:'Profit Per Day \n ${currentValue}', defaultState: true, backgroundColors: [
                         [value: 0, color: "#ff0000"],
                         [value: 100, color: "#00ff00"]
                     ]
                 }
                 valueTile("profitPerMonth", "device.profitPerMonth", width: 2, height: 2) {
-                    state "val", label:'Per Month \n ${currentValue}', defaultState: true, backgroundColors: [
+                    state "val", label:'Profit Per Month \n ${currentValue}', defaultState: true, backgroundColors: [
                         [value: 0, color: "#ff0000"],
                         [value: 2000, color: "#00ff00"]
                     ]
                 }
                 valueTile("powerUsage", "device.powerUsage", width: 2, height: 2) {
-                    state "val", label:'Per Day \n ${currentValue}', defaultState: true, backgroundColors: [
+                    state "val", label:'Power \n ${currentValue}', defaultState: true, backgroundColors: [
                         [value: 0, color: "#ff0000"],
                         [value: 100, color: "#00ff00"]
                     ]
