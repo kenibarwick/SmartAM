@@ -112,11 +112,9 @@ metadata {
                         [value: AM_gpu_count, color: "#00ff00"]
                     ]
                 }
-                
                 standardTile("refresh", "device.switch", decoration: "flat", width: 2, height: 2) {
                     state "default", label: 'refresh', action: "refresh", icon: "st.secondary.refresh"
                 }
-                
             	standardTile("info", "device.info", decoration: "flat", width: 4, height: 2) {
                     state "default", label: 'last updated \n${currentValue}', action: "refresh"
                 }
@@ -127,7 +125,7 @@ metadata {
                 }
                                                 
             main("revenuePerDayMain")
-            	details(["exchangeRate", "profitPerDay", "profitPerMonth", "revenuePerDay", "revenuePerMonth", "runningCount", "totalCount", "gpuCount", , "powerUsage", "refresh", "info", "algorithmList"])
+            	details(["exchangeRate", "profitPerDayMain", "profitPerDay", "profitPerMonth", "revenuePerDay", "revenuePerMonth", "runningCount", "totalCount", "gpuCount", "powerUsage", "refresh", "info", "algorithmList"])
                 }
     }
  	preferences {
@@ -177,6 +175,8 @@ def responseHandlerMethod(response, data) {
     // log.debug "parsing response"
 
 	def respText = response.data as String
+    def revenuePerDayMain = mineResult.get("revenuePerDay")
+    log.debug "revenuePerDayMain ${revenuePerDay}"
     def mineResult = new groovy.json.JsonSlurper().parseText(respText)
     def revenuePerDay = mineResult.get("revenuePerDay")
     log.debug "revenuePerDay ${revenuePerDay}"
