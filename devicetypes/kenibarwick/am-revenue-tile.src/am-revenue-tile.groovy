@@ -23,10 +23,11 @@
  *  2018-07-02 Version 0.0.6  Refresh delay implemented and minutes setting added  
  *  2019-01-29 Version 0.0.7  Added algo profit summary and power usage in kW
  *  2019-01-29 Version 0.0.8  Fixed missing algo
+ *  2019-01-31 Version 0.0.9  Added options to caputre CPU, GPA, ASIC mines
 */
 
 def clientVersion() {
-    return "0.0.8"
+    return "0.0.9"
 }
  
 definition(
@@ -112,6 +113,24 @@ metadata {
                         [value: AM_gpu_count, color: "#00ff00"]
                     ]
                 }
+                valueTile("asicCount", "device.asicCount", width: 2, height: 2) {
+                    state "val", label:'ASIC\nCount \n ${currentValue}', defaultState: true, backgroundColors: [
+                        [value: 0, color: "#ff0000"],
+                        [value: AM_asic_count, color: "#00ff00"]
+                    ]
+                }
+                valueTile("gpaCount", "device.gpaCount", width: 2, height: 2) {
+                    state "val", label:'GPA\nCount \n ${currentValue}', defaultState: true, backgroundColors: [
+                        [value: 0, color: "#ff0000"],
+                        [value: AM_gpa_count, color: "#00ff00"]
+                    ]
+                }
+                valueTile("cpuCount", "device.cpuCount", width: 2, height: 2) {
+                    state "val", label:'CPU\nCount \n ${currentValue}', defaultState: true, backgroundColors: [
+                        [value: 0, color: "#ff0000"],
+                        [value: AM_cpu_count, color: "#00ff00"]
+                    ]
+                }                
                 standardTile("refresh", "device.switch", decoration: "flat", width: 2, height: 2) {
                     state "default", label: 'refresh', action: "refresh", icon: "st.secondary.refresh"
                 }
@@ -125,17 +144,20 @@ metadata {
                 }
                                                 
             main("revenuePerDayMain")
-            	details(["profitPerDay", "profitPerMonth", "powerUsage", "revenuePerDay", "revenuePerMonth", "refresh", "runningCount", "totalCount", "gpuCount", "exchangeRate" , "info", "algorithmList"])
+            	details(["profitPerDay", "profitPerMonth", "powerUsage", "revenuePerDay", "revenuePerMonth", "refresh", "runningCount", "totalCount", "gpuCount", "asicCount", "gpaCount", "cpuCount", "exchangeRate", "info", "algorithmList"])
                 }
     }
  	preferences {
 	    input title: "Smart Awesome Miner API settings", description: "v${clientVersion()} (c) Keni Barwick", displayDuringSetup: true, type: "paragraph", element: "paragraph"
         input name: "AM_domain", type: "text", title: "Awesome Miner domain address", description: "Enter the Awesome Miner API domain address: i.e. domain.com", required: true, displayDuringSetup: true
-        input name: "AM_port", type: "number", title: "Awesome Miner port number", description: "Enter the Awesome Miner API port number", required: true
-        input name: "AM_api_key", type: "text", title: "Awesome Miner api key", description: "Enter API key", required: true
+        input name: "AM_port", type: "number", title: "Awesome Miner port number", description: "Enter the Awesome Miner API port number", required: true, displayDuringSetup: true
+        input name: "AM_api_key", type: "text", title: "Awesome Miner api key", description: "Enter API key", required: true, displayDuringSetup: true
         input name: "AM_miner_count", type: "number", title: "Awesome Miner count", description: "Enter amount of miners", required: true
         input name: "AM_gpu_count", type: "number", title: "Count of GPUs", description: "Enter ammount of GPUs", required: true     
-        input name: "AM_refresh_delay", type: "number", title: "Details refresh delay in minutes", description: "Enter ammount of minutes", required: true, displayDuringSetup: true        
+        input name: "AM_asic_count", type: "number", title: "Count of ASICs", description: "Enter ammount of ASICs", required: true     
+        input name: "AM_gpa_count", type: "number", title: "Count of GPAs", description: "Enter ammount of GPAs", required: true     
+        input name: "AM_cpu_count", type: "number", title: "Count of CPUs", description: "Enter ammount of CPUs", required: true     
+        input name: "AM_refresh_delay", type: "number", title: "Details refresh delay in minutes", description: "Enter ammount of minutes", required: true        
     }
 }
 def refresh() {
@@ -196,6 +218,12 @@ def responseHandlerMethod(response, data) {
     log.debug "totalCount ${totalCount}"
     def gpuCount = mineResult.get("gpuCount")
     log.debug "gpuCount ${gpuCount}"
+    def asicCount = mineResult.get("asicCount")
+    log.debug "asicCount ${gpuCount}"
+    def apuCount = mineResult.get("apuCount")
+    log.debug "apuCount ${gpuCount}"
+     def cpuCount = mineResult.get("cpuCount")
+    log.debug "cpuCount ${gpuCount}"       
     def metaData = mineResult.get("metaData")
     log.debug "updated ${metaData.updated}"
     def algorithmList = mineResult.get("algorithmList")
@@ -213,6 +241,9 @@ def responseHandlerMethod(response, data) {
     sendEvent(name: "runningCount", value: runningCount)
     sendEvent(name: "totalCount", value: totalCount)
     sendEvent(name: "gpuCount", value: gpuCount)
+    sendEvent(name: "asicCount", value: asicCount)
+    sendEvent(name: "apuCount", value: apuCount)
+    sendEvent(name: "cpuCount", value: cpuCount)
         
     sendEvent(name: "algorithmList", value: algorithmListConcat(algorithmList))
     
