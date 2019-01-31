@@ -123,7 +123,7 @@ metadata {
                 valueTile("pgaCount", "device.pgaCount", width: 2, height: 2) {
                     state "val", label:'PGA\nCount \n ${currentValue}', defaultState: true, backgroundColors: [
                         [value: 0, color: "#ff0000"],
-                        [value: AM_gpa_count, color: "#00ff00"]
+                        [value: AM_pga_count, color: "#00ff00"]
                     ]
                 }
                 valueTile("cpuCount", "device.cpuCount", width: 2, height: 2) {
