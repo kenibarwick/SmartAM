@@ -149,7 +149,7 @@ metadata {
                 }
     }
  	preferences {
-	    input title: "Smart Awesome Miner API settings", description: "v${clientVersion()} (c) Keni Barwick", displayDuringSetup: true, type: "paragraph", element: "paragraph"
+        input title: "Smart Awesome Miner API settings", description: "v${clientVersion()} (c) Keni Barwick", displayDuringSetup: true, type: "paragraph", element: "paragraph"
         input name: "AM_domain", type: "text", title: "Awesome Miner domain address", description: "Enter the Awesome Miner API domain address: i.e. domain.com", required: true, displayDuringSetup: true
         input name: "AM_port", type: "number", title: "Awesome Miner port number", description: "Enter the Awesome Miner API port number", required: true, displayDuringSetup: true
         input name: "AM_api_key", type: "text", title: "Awesome Miner api key", description: "Enter API key", required: true, displayDuringSetup: true
@@ -220,11 +220,11 @@ def responseHandlerMethod(response, data) {
     def gpuCount = mineResult.get("gpuCount")
     log.debug "gpuCount ${gpuCount}"
     def asicCount = mineResult.get("asicCount")
-    log.debug "asicCount ${gpuCount}"
+    log.debug "asicCount ${asicCount}"
     def pgaCount = mineResult.get("pgaCount")
-    log.debug "pgaCount ${gpuCount}"
+    log.debug "pgaCount ${pgaCount}"
      def cpuCount = mineResult.get("cpuCount")
-    log.debug "cpuCount ${gpuCount}"       
+    log.debug "cpuCount ${cpuCount}"       
     def metaData = mineResult.get("metaData")
     log.debug "updated ${metaData.updated}"
     def algorithmList = mineResult.get("algorithmList")
