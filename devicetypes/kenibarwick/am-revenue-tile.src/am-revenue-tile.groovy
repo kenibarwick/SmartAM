@@ -125,7 +125,7 @@ metadata {
                 }
                                                 
             main("revenuePerDayMain")
-            	details(["exchangeRate", "profitPerDayMain", "profitPerDay", "profitPerMonth", "revenuePerDay", "revenuePerMonth", "runningCount", "totalCount", "gpuCount", "powerUsage", "refresh", "info", "algorithmList"])
+            	details(["profitPerDay", "profitPerMonth", "powerUsage", "revenuePerDay", "revenuePerMonth", "refresh", "runningCount", "totalCount", "gpuCount", "exchangeRate" , "info", "algorithmList"])
                 }
     }
  	preferences {
