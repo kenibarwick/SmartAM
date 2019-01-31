@@ -52,7 +52,7 @@ metadata {
     tiles {
         // TODO: define your main and details tiles here
         tiles(scale: 2) {
-                valueTile("profitPerDayMain", "device.profitPerDayMain", width: 2, height: 2) {
+                valueTile("profitPerDayMain", "device.profitPerDay", width: 2, height: 2) {
                     state "val", label:'${currentValue}', defaultState: true, backgroundColors: [
                         [value: 0, color: "#ff0000"],
                         [value: 100, color: "#00ff00"]
